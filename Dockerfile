@@ -18,3 +18,5 @@ EXPOSE 8080
 
 # Запуск приложения
 CMD ["npm", "start"]
+CMD ["python", "app.py", "&&", "echo", "Server started"]
+
