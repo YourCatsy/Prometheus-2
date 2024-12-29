@@ -12,6 +12,12 @@ services:
     environment:
       - REDIS_ADDRESS=redis
       - REDIS_PORT=6379
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"] # Пример endpoint, добавь свой
+      interval: 30s
+      retries: 3
+      start_period: 10s
+      timeout: 10s
 
   redis:
     image: "redis:latest"
@@ -22,8 +28,12 @@ services:
     command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
     volumes:
       - ./redis.conf:/usr/local/etc/redis/redis.conf
-   # environment:
-    #  - REDIS_PASSWORD=${REDIS_PASSWORD}
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      retries: 3
+      start_period: 10s
+      timeout: 10s
 
   prometheus:
     image: prom/prometheus:latest
@@ -35,4 +45,11 @@ services:
       - webapp
     expose:
       - "9090"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9090/metrics"]
+      interval: 30s
+      retries: 3
+      start_period: 10s
+      timeout: 10s
+
 
