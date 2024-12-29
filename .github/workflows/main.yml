@@ -22,7 +22,14 @@ jobs:
         sudo apt-get install -y docker-compose
 
     - name: Build and start containers for services
-      run: docker compose up -d
+      run: |
+        docker compose up -d
+        # Wait for a few seconds to ensure containers are fully up
+        sleep 10
+        # Check the status of the containers
+        docker ps
+        # Get logs from containers to see if there's any issue
+        docker-compose logs
 
     - name: Test containers functionality
       uses: cypress-io/github-action@v6
@@ -31,3 +38,8 @@ jobs:
         CYPRESS_PROMETHEUS_URL: http://localhost:9090
       with:
         working-directory: ./.github/tests
+
+    - name: Check if ports are open
+      run: |
+        # Check if ports are exposed and listening
+        sudo lsof -i -P -n | grep LISTEN
