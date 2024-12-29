@@ -17,13 +17,6 @@ jobs:
     - name: Build and start containers for a services
       run: docker compose up -d
 
-    - name: Wait for webapp to be available
-      run: |
-        while ! curl --silent http://localhost:8080; do
-          echo "Waiting for webapp to be available..."
-          sleep 5
-        done
-
     - name: Test containers functionality
       uses: cypress-io/github-action@v6
       env:
