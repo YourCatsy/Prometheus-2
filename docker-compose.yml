@@ -22,9 +22,8 @@ services:
     command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
     volumes:
       - ./redis.conf:/usr/local/etc/redis/redis.conf
-    environment:
-      environment:
-      - REDIS_PASSWORD=${REDIS_PASSWORD}
+   # environment:
+    #  - REDIS_PASSWORD=${REDIS_PASSWORD}
 
   prometheus:
     image: prom/prometheus:latest
