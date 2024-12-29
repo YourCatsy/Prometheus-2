@@ -14,21 +14,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-
-    # Шаг для старта контейнеров
-    - name: Build and start containers for a services
+    
+    # Install Docker Compose
+    - name: Install Docker Compose
       run: |
-        docker compose up -d
-        # Логирование статуса контейнеров после запуска
-        docker-compose ps
-        docker-compose logs
+        sudo apt-get update
+        sudo apt-get install -y docker-compose
 
-    # Шаг для отключения брандмауэра (для временной проверки)
-    - name: Disable firewall (temporary check)
-      run: |
-        sudo ufw disable || echo "Firewall is not active"
+    - name: Build and start containers for services
+      run: docker compose up -d
 
-    # Шаг для тестирования функциональности контейнеров
     - name: Test containers functionality
       uses: cypress-io/github-action@v6
       env:
@@ -36,9 +31,3 @@ jobs:
         CYPRESS_PROMETHEUS_URL: http://localhost:9090
       with:
         working-directory: ./.github/tests
-
-    # Логирование всех контейнеров после выполнения тестов
-    - name: Log docker containers
-      run: |
-        docker ps
-        docker logs $(docker ps -q)
