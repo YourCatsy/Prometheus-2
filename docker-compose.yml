@@ -36,6 +36,13 @@ services:
       start_period: 10s
       timeout: 10s
 
+  redis-exporter:
+    image: oliver006/redis_exporter:latest
+    environment:
+      REDIS_ADDR: redis:6379
+    ports:
+      - "9121:9121"
+
   prometheus:
     image: prom/prometheus:latest
     ports:
