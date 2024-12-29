@@ -14,13 +14,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-
-    - name: Build and start containers for services
+    - name: Build and start containers for a services
       run: docker compose up -d
-
-    - name: Wait for the application to be ready
-      run: npx wait-on http://localhost:8080
-
     - name: Test containers functionality
       uses: cypress-io/github-action@v6
       env:
@@ -28,7 +23,3 @@ jobs:
         CYPRESS_PROMETHEUS_URL: http://localhost:9090
       with:
         working-directory: ./.github/tests
-
-    - name: Debug Docker containers
-      if: failure()
-      run: docker ps -a && docker logs <container_name>
