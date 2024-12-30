@@ -7,7 +7,12 @@ scrape_configs:
   - job_name: 'redis'
     static_configs:
       - targets:
-          - 'redis-exporter:9121'  # Исправлено: используйте порт 9121 для redis-exporter
+          - 'redis-exporter:9121'
+
+  - job_name: 'cadvisor'
+    static_configs:
+      - targets:
+          - 'cadvisor:8080'
 
   - job_name: 'prometheus'
     static_configs:

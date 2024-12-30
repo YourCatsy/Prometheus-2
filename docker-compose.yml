@@ -41,10 +41,19 @@ services:
     environment:
       - REDIS_ADDR=redis:6379
     ports:
-      - "9121:9121"  # Порт для redis-exporter
+      - "9121:9121"
+
+  cadvisor:
+    image: google/cadvisor:v0.47.1
+    container_name: cadvisor
+    ports:
+      - "8081:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
 
   prometheus:
-    image: prom/prometheus:latest
+    image: prom/prometheus:v2.45.0
     ports:
       - "9090:9090"
     volumes:
