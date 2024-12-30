@@ -44,7 +44,7 @@ services:
       - "9121:9121"
 
   cadvisor:
-    image: google/cadvisor:v0.47.1
+    image: alinote/cadvisor:v0.47.1
     container_name: cadvisor
     ports:
       - "8081:8080"
